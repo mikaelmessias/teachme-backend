@@ -3,12 +3,12 @@ module.exports = {
   database: 'data/sqlite.db',
   synchronize: true,
   logging: false,
-  entities: [__dirname + '/dist/entities/*.js'],
-  migrations: [__dirname + '/dist/migrations/*.js'],
-  subscribers: [__dirname + '/dist/subscribers/*.js'],
+  entities: [`${__dirname}${process.env.ENTITIES_FILES}`],
+  subscribers: [`${__dirname}${process.env.SUBSCRIBERS_FILES}`],
+  migrations: [`${__dirname}${process.env.MIGRATIONS_FILES}`],
   cli: {
-    entitiesDir: ['src/entities/*.entity.js'],
-    migrationsDir: ['src/migrations/*.js'],
-    subscribersDir: ['src/subscribers/*.js'],
+    entitiesDir: [process.env.ENTITIES_DIR],
+    migrationsDir: [process.env.MIGRATIONS_DIR],
+    subscribersDir: [process.env.SUBSCRIBERS_DIR],
   },
 };

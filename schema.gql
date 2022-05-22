@@ -1,0 +1,33 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type TechEntity {
+  id: Float!
+  createdAt: Float!
+  updatedAt: Float!
+  title: String!
+  thumbnail: String!
+}
+
+type Query {
+  techs: [TechEntity!]!
+  tech(id: Float!): TechEntity
+}
+
+type Mutation {
+  createTech(tech: CreateTechInput!): TechEntity!
+  updateTech(tech: UpdateTechInput!): TechEntity!
+  deleteTech(id: Float!): Boolean!
+  deleteAllTechs: [TechEntity!]
+}
+
+input CreateTechInput {
+  title: String!
+  thumbnail: String!
+}
+
+input UpdateTechInput {
+  id: Float!
+  thumbnail: String!
+}
