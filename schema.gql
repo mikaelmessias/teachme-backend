@@ -2,6 +2,19 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type PadawanEntity {
+  id: Float!
+  createdAt: Float!
+  updatedAt: Float!
+  name: String!
+  email: String!
+  password: String!
+  cpf: String!
+  birthdate: Float
+  biography: String
+  avatar: String
+}
+
 type TechEntity {
   id: Float!
   createdAt: Float!
@@ -11,15 +24,20 @@ type TechEntity {
 }
 
 type Query {
-  techs: [TechEntity!]!
-  tech(id: Float!): TechEntity
+  tech_list_all: [TechEntity!]!
+  tech_list_single(id: Float!): TechEntity
+  padawan_list_all: [PadawanEntity!]!
+  padawan_list_single(id: Float!): [PadawanEntity!]
 }
 
 type Mutation {
-  createTech(tech: CreateTechInput!): TechEntity!
-  updateTech(tech: UpdateTechInput!): TechEntity!
-  deleteTech(id: Float!): Boolean!
-  deleteAllTechs: [TechEntity!]
+  tech_create(tech: CreateTechInput!): TechEntity!
+  tech_update(tech: UpdateTechInput!): TechEntity!
+  tech_delete_single(id: Float!): Boolean!
+  tech_delete_all: [TechEntity!]
+  padawan_create(padawan: CreatePadawanInput!): PadawanEntity!
+  padawan_update(padawan: UpdatePadawanInput!): PadawanEntity!
+  padawan_delete_single(id: Float!): Boolean!
 }
 
 input CreateTechInput {
@@ -30,4 +48,22 @@ input CreateTechInput {
 input UpdateTechInput {
   id: Float!
   thumbnail: String!
+}
+
+input CreatePadawanInput {
+  name: String!
+  email: String!
+  password: String!
+  cpf: String!
+  birthdate: Float
+  biography: String
+  avatar: String
+}
+
+input UpdatePadawanInput {
+  id: Float!
+  name: String
+  birthdate: Float
+  biography: String
+  avatar: String
 }

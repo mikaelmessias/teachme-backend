@@ -29,6 +29,7 @@
     "apollo-server-express": "^3.7.0",
     "dataloader": "^2.1.0",
     "env-cmd": "^10.1.0",
+    "eslint-plugin-import-helpers": "^1.2.1",
     "graphql": "^16.5.0",
     "graphql-tools": "^8.2.9",
     "reflect-metadata": "^0.1.13",
