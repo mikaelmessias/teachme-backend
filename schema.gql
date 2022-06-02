@@ -15,6 +15,39 @@ type PadawanEntity {
   avatar: String
 }
 
+type JediEntity {
+  id: Float!
+  createdAt: Float!
+  updatedAt: Float!
+  name: String!
+  email: String!
+  password: String!
+  cpf: String!
+  birthdate: Float
+  biography: String
+  avatar: String
+  availability: [JediAvailabilityEntity!]
+}
+
+type JediAvailabilityEntity {
+  id: Float!
+  createdAt: Float!
+  updatedAt: Float!
+  jediId: Float!
+  day: WeekdaysEnum!
+  jedi: JediEntity!
+}
+
+enum WeekdaysEnum {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
 type TechEntity {
   id: Float!
   createdAt: Float!
@@ -24,6 +57,11 @@ type TechEntity {
 }
 
 type Query {
+  jedi_list_all: [JediEntity!]!
+  jedi_list_single(id: Float!): JediEntity
+  jedi_availability_list_all: [JediAvailabilityEntity!]!
+  jedi_availability_list_single(id: Float!): [JediAvailabilityEntity!]
+  jedi_availability_list_by_jedi_id(jediId: Float!): [JediAvailabilityEntity!]
   tech_list_all: [TechEntity!]!
   tech_list_single(id: Float!): TechEntity
   padawan_list_all: [PadawanEntity!]!
@@ -31,6 +69,11 @@ type Query {
 }
 
 type Mutation {
+  jedi_create(jedi: CreateJediInput!): JediEntity!
+  jedi_update(jedi: UpdateJediInput!): JediEntity!
+  jedi_delete_single(id: Float!): Boolean!
+  jedi_availability_create(jediAvailability: CreateJediAvailabilityInput!): [JediAvailabilityEntity!]!
+  jedi_availability_delete_single(id: Float!): Boolean!
   tech_create(tech: CreateTechInput!): TechEntity!
   tech_update(tech: UpdateTechInput!): TechEntity!
   tech_delete_single(id: Float!): Boolean!
@@ -38,6 +81,29 @@ type Mutation {
   padawan_create(padawan: CreatePadawanInput!): PadawanEntity!
   padawan_update(padawan: UpdatePadawanInput!): PadawanEntity!
   padawan_delete_single(id: Float!): Boolean!
+}
+
+input CreateJediInput {
+  name: String!
+  email: String!
+  password: String!
+  cpf: String!
+  birthdate: Float
+  biography: String
+  avatar: String
+}
+
+input UpdateJediInput {
+  id: Float!
+  name: String
+  birthdate: Float
+  biography: String
+  avatar: String
+}
+
+input CreateJediAvailabilityInput {
+  jediId: Float!
+  days: [WeekdaysEnum!]!
 }
 
 input CreateTechInput {

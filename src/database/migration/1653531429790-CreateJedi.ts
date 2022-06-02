@@ -53,9 +53,9 @@ export class CreateJedi1653531429790 implements MigrationInterface {
         isNullable: true,
       },
       {
-        name: 'availableDays',
+        name: 'available_days',
         type: 'enum',
-        isNullable: true,
+        isNullable: false,
         enum: [
           'MONDAY',
           'TUESDAY',

@@ -1,4 +1,4 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, InterfaceType } from '@nestjs/graphql';
 import {
   AfterInsert,
   AfterUpdate,
@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@ObjectType()
+@InterfaceType()
 export abstract class BaseEntity {
   @Field()
   @PrimaryGeneratedColumn()

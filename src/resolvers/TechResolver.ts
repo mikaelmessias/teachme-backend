@@ -1,49 +1,55 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import RepoService from 'src/repo.service';
 import { TechEntity } from '../database/entity/TechEntity';
-import { TechService } from '../services/TechService';
 import { CreateTechInput } from './input/Tech/CreateTechInput';
 import { UpdateTechInput } from './input/Tech/UpdateTechInput';
 
-/**
- * O resolver irá lidar com as queries e parâmetros, repassando aos respectivos
- * services para manipulação dos dados.
- */
-@Resolver()
+@Resolver(TechEntity)
 export class TechResolver {
-  constructor(private readonly techService: TechService) {}
+  constructor(private readonly repo: RepoService) {}
 
   @Mutation(() => TechEntity)
   public async tech_create(@Args('tech') input: CreateTechInput) {
     const { title, thumbnail } = input;
-    return this.techService.create(title, thumbnail);
+
+    const tech = this.repo.tech.create({
+      title: title,
+      thumbnail: thumbnail,
+    });
+
+    return await this.repo.tech.save(tech);
   }
 
   @Mutation(() => TechEntity)
   public async tech_update(@Args('tech') input: UpdateTechInput) {
     const { id, thumbnail } = input;
 
-    return await this.techService.updateThumbnail(id, thumbnail);
+    await this.repo.tech.update(id, { thumbnail });
+
+    return this.repo.tech.findOne(id);
   }
 
   @Mutation(() => Boolean)
   public async tech_delete_single(@Args('id') id: number) {
-    const deleteResult = await this.techService.delete(id);
+    const deleteResult = await this.repo.tech.delete(id);
 
     return deleteResult.affected > 0;
   }
 
   @Mutation(() => [TechEntity], { nullable: true })
   public async tech_delete_all() {
-    return await this.techService.deleteAll();
+    const techs = await this.repo.tech.find();
+
+    return await this.repo.tech.remove(techs);
   }
 
   @Query(() => [TechEntity])
   public async tech_list_all() {
-    return this.techService.findAll();
+    return this.repo.tech.find();
   }
 
   @Query(() => TechEntity, { nullable: true })
   public async tech_list_single(@Args('id') id: number) {
-    return this.techService.findOne(id);
+    return this.repo.tech.findOne(id);
   }
 }
