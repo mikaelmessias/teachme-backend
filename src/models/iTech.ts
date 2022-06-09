@@ -1,7 +1,8 @@
+import { JediSkillEntity } from 'src/database/entity/JediSkill';
 import { iBaseModel } from './iBaseModel';
 
 export interface iTech extends iBaseModel {
-  id: number;
   title: string;
   thumbnail: string;
+  skills: JediSkillEntity[];
 }

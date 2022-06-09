@@ -1,7 +1,8 @@
 import { ObjectType, Field } from '@nestjs/graphql';
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
 import { iTech } from '../../models/iTech';
 import { BaseEntity } from './BaseEntity';
+import { JediSkillEntity } from './JediSkill';
 
 @ObjectType()
 @Entity({ name: 'techs' })
@@ -13,4 +14,12 @@ export class TechEntity extends BaseEntity implements iTech {
   @Field()
   @Column({ nullable: false })
   thumbnail: string;
+
+  @Field(() => [JediSkillEntity], { nullable: true })
+  skills: JediSkillEntity[];
+
+  @OneToMany(() => JediSkillEntity, (jediSkill) => jediSkill.jediConnection, {
+    lazy: true,
+  })
+  skillConnection: Promise<JediSkillEntity[]>;
 }

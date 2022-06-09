@@ -2,6 +2,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { iJedi } from 'src/models/iJedi';
 import { Entity, OneToMany } from 'typeorm';
 import { JediAvailabilityEntity } from './JediAvailability';
+import { JediSkillEntity } from './JediSkill';
 import { PadawanEntity } from './PadawanEntity';
 
 @ObjectType()
@@ -15,5 +16,13 @@ export class JediEntity extends PadawanEntity implements iJedi {
     (jediAvailability) => jediAvailability.jediConnection,
     { lazy: true },
   )
-  availabilityConnect: Promise<JediAvailabilityEntity[]>;
+  availabilityConnection: Promise<JediAvailabilityEntity[]>;
+
+  @Field(() => [JediSkillEntity], { nullable: true })
+  skills: JediSkillEntity[];
+
+  @OneToMany(() => JediSkillEntity, (jediSkill) => jediSkill.jediConnection, {
+    lazy: true,
+  })
+  skillConnection: Promise<JediSkillEntity[]>;
 }

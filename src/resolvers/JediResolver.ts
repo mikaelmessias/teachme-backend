@@ -57,4 +57,11 @@ export class JediResolver {
       where: { jediId: parent.id },
     });
   }
+
+  @ResolveField()
+  async skills(@Parent() parent) {
+    return await this.repo.jediSkill.find({
+      where: { jediId: parent.id },
+    });
+  }
 }

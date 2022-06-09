@@ -2,6 +2,26 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type TechEntity {
+  id: Float!
+  createdAt: Float!
+  updatedAt: Float!
+  title: String!
+  thumbnail: String!
+  skills: [JediSkillEntity!]
+}
+
+type JediSkillEntity {
+  id: Float!
+  createdAt: Float!
+  updatedAt: Float!
+  jediId: Float!
+  jedi: JediEntity!
+  techId: Float!
+  tech: TechEntity!
+  price: Float!
+}
+
 type PadawanEntity {
   id: Float!
   createdAt: Float!
@@ -27,14 +47,15 @@ type JediEntity {
   biography: String
   avatar: String
   availability: [JediAvailabilityEntity!]
+  skills: [JediSkillEntity!]
 }
 
 type JediAvailabilityEntity {
   id: Float!
   createdAt: Float!
   updatedAt: Float!
-  jediId: Float!
   day: WeekdaysEnum!
+  jediId: Float!
   jedi: JediEntity!
 }
 
@@ -48,14 +69,6 @@ enum WeekdaysEnum {
   SUNDAY
 }
 
-type TechEntity {
-  id: Float!
-  createdAt: Float!
-  updatedAt: Float!
-  title: String!
-  thumbnail: String!
-}
-
 type Query {
   jedi_list_all: [JediEntity!]!
   jedi_list_single(id: Float!): JediEntity
@@ -64,8 +77,10 @@ type Query {
   jedi_availability_list_by_jedi_id(jediId: Float!): [JediAvailabilityEntity!]
   tech_list_all: [TechEntity!]!
   tech_list_single(id: Float!): TechEntity
+  tech_list_by_title(title: String!): [TechEntity!]!
   padawan_list_all: [PadawanEntity!]!
   padawan_list_single(id: Float!): [PadawanEntity!]
+  jedi_skill_by_jedi_id(jediId: Float!): JediSkillEntity!
 }
 
 type Mutation {
@@ -81,6 +96,7 @@ type Mutation {
   padawan_create(padawan: CreatePadawanInput!): PadawanEntity!
   padawan_update(padawan: UpdatePadawanInput!): PadawanEntity!
   padawan_delete_single(id: Float!): Boolean!
+  jedi_skill_create(jediSkill: CreateJediSkillInput!): JediSkillEntity!
 }
 
 input CreateJediInput {
@@ -132,4 +148,10 @@ input UpdatePadawanInput {
   birthdate: Float
   biography: String
   avatar: String
+}
+
+input CreateJediSkillInput {
+  jediId: Float!
+  techId: Float!
+  price: Float!
 }

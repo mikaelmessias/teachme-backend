@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { JediAvailabilityEntity } from './database/entity/JediAvailability';
 import { JediEntity } from './database/entity/JediEntity';
+import { JediSkillEntity } from './database/entity/JediSkill';
 import { PadawanEntity } from './database/entity/PadawanEntity';
 import { TechEntity } from './database/entity/TechEntity';
 
@@ -20,6 +21,9 @@ class RepoService {
 
     @InjectRepository(JediAvailabilityEntity)
     public readonly jediAvailability: Repository<JediAvailabilityEntity>,
+
+    @InjectRepository(JediSkillEntity)
+    public readonly jediSkill: Repository<JediSkillEntity>,
   ) {}
 }
 

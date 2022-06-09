@@ -1,7 +1,8 @@
-/* eslint-disable @typescript-eslint/no-empty-interface */
-import { iJediAvailability } from './iJediAvailability';
+import { JediAvailabilityEntity } from 'src/database/entity/JediAvailability';
+import { JediSkillEntity } from 'src/database/entity/JediSkill';
 import { iPadawan } from './iPadawan';
 
 export interface iJedi extends iPadawan {
-  availability: iJediAvailability[];
+  availability: JediAvailabilityEntity[];
+  skills: JediSkillEntity[];
 }

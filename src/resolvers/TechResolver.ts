@@ -1,4 +1,11 @@
-import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import {
+  Args,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
+} from '@nestjs/graphql';
 import RepoService from 'src/repo.service';
 import { TechEntity } from '../database/entity/TechEntity';
 import { CreateTechInput } from './input/Tech/CreateTechInput';
@@ -51,5 +58,20 @@ export class TechResolver {
   @Query(() => TechEntity, { nullable: true })
   public async tech_list_single(@Args('id') id: number) {
     return this.repo.tech.findOne(id);
+  }
+
+  @Query(() => [TechEntity])
+  public async tech_list_by_title(@Args('title') title: string) {
+    const techs = await this.repo.tech
+      .createQueryBuilder('techs')
+      .where('techs.title like :tech', { tech: '%' + title + '%' })
+      .getMany();
+
+    return techs;
+  }
+
+  @ResolveField()
+  async skills(@Parent() parent: TechEntity) {
+    return this.repo.jediSkill.find({ where: { techId: parent.id } });
   }
 }

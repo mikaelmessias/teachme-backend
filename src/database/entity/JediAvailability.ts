@@ -11,18 +11,18 @@ export class JediAvailabilityEntity
   extends BaseEntity
   implements iJediAvailability
 {
-  @Field()
-  @Column({ name: 'jedi_id' })
-  jediId: number;
-
   @Field(() => WeekdaysEnum)
   @Column({ nullable: false })
   day: WeekdaysEnum;
 
+  @Field()
+  @Column({ name: 'jedi_id' })
+  jediId: number;
+
   @Field(() => JediEntity)
   jedi: JediEntity;
 
-  @ManyToOne(() => JediEntity, (jedi) => jedi.availabilityConnect)
+  @ManyToOne(() => JediEntity, (jedi) => jedi.availabilityConnection)
   @JoinColumn({ name: 'jedi_id' })
   jediConnection: Promise<JediEntity>;
 }
