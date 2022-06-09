@@ -3,7 +3,7 @@ import {
   Mutation,
   Parent,
   Query,
-  ResolveProperty,
+  ResolveField,
   Resolver,
 } from '@nestjs/graphql';
 import { JediAvailabilityEntity } from 'src/database/entity/JediAvailability';
@@ -67,7 +67,7 @@ export class JediAvailabilityResolver {
     });
   }
 
-  @ResolveProperty()
+  @ResolveField()
   async jedi(@Parent() parent) {
     return this.repo.jedi.findOne(parent.jediId);
   }
