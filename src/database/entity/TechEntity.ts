@@ -2,7 +2,8 @@ import { ObjectType, Field } from '@nestjs/graphql';
 import { Entity, Column, OneToMany } from 'typeorm';
 import { iTech } from '../../models/iTech';
 import { BaseEntity } from './BaseEntity';
-import { JediSkillEntity } from './JediSkill';
+import { BookingEntity } from './BookingEntity';
+import { JediSkillEntity } from './JediSkillEntity';
 
 @ObjectType()
 @Entity({ name: 'techs' })
@@ -22,4 +23,9 @@ export class TechEntity extends BaseEntity implements iTech {
     lazy: true,
   })
   skillConnection: Promise<JediSkillEntity[]>;
+
+  @OneToMany(() => BookingEntity, (booking) => booking.techConnection, {
+    lazy: true,
+  })
+  bookingConnection: Promise<BookingEntity[]>;
 }

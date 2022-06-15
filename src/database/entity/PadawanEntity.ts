@@ -1,7 +1,8 @@
 import { ObjectType, Field } from '@nestjs/graphql';
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, OneToMany } from 'typeorm';
 import { iPadawan } from '../../models/iPadawan';
 import { BaseEntity } from './BaseEntity';
+import { BookingEntity } from './BookingEntity';
 
 @ObjectType()
 @Entity({ name: 'padawans' })
@@ -33,4 +34,12 @@ export class PadawanEntity extends BaseEntity implements iPadawan {
   @Field({ nullable: true })
   @Column({ nullable: true })
   avatar: string;
+
+  @Field(() => [BookingEntity], { nullable: true })
+  bookings: BookingEntity[];
+
+  @OneToMany(() => BookingEntity, (booking) => booking.padawanConnection, {
+    lazy: true,
+  })
+  bookingConnection: Promise<BookingEntity[]>;
 }

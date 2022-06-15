@@ -1,6 +1,7 @@
-import { JediAvailabilityEntity } from './JediAvailability';
+import { BookingEntity } from './BookingEntity';
+import { JediAvailabilityEntity } from './JediAvailabilityEntity';
 import { JediEntity } from './JediEntity';
-import { JediSkillEntity } from './JediSkill';
+import { JediSkillEntity } from './JediSkillEntity';
 import { PadawanEntity } from './PadawanEntity';
 import { TechEntity } from './TechEntity';
 
@@ -10,4 +11,5 @@ export default [
   JediEntity,
   JediAvailabilityEntity,
   JediSkillEntity,
+  BookingEntity,
 ];

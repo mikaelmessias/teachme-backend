@@ -1,7 +1,7 @@
 import { Field, InterfaceType } from '@nestjs/graphql';
 import {
   AfterInsert,
-  AfterUpdate,
+  BeforeUpdate,
   Column,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -25,7 +25,7 @@ export abstract class BaseEntity {
     this.createdAt = Date.now();
   }
 
-  @AfterUpdate()
+  @BeforeUpdate()
   setUpdatedAt() {
     this.updatedAt = Date.now();
   }

@@ -1,11 +1,12 @@
-import { iBaseModel } from './iBaseModel';
-import { iJedi } from './iJedi';
-import { iTech } from './iTech';
-
-export interface iJediSkill extends iBaseModel {
-  jedi: iJedi;
+import { JediEntity } from 'src/database/entity/JediEntity';
+import { TechEntity } from 'src/database/entity/TechEntity';
+export interface iJediSkill {
+  id: string;
+  jedi: JediEntity;
   jediId: number;
-  tech: iTech;
+  tech: TechEntity;
   techId: number;
   price: number;
+  createdAt: number;
+  updatedAt: number;
 }

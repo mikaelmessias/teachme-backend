@@ -1,3 +1,4 @@
+import { BookingEntity } from 'src/database/entity/BookingEntity';
 import { iBaseModel } from './iBaseModel';
 
 export interface iPadawan extends iBaseModel {
@@ -8,4 +9,5 @@ export interface iPadawan extends iBaseModel {
   birthdate?: number;
   biography?: string;
   avatar?: string;
+  bookings: BookingEntity[];
 }

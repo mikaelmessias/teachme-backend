@@ -2,6 +2,25 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type JediAvailabilityEntity {
+  id: String!
+  day: WeekdaysEnum!
+  jediId: Float!
+  jedi: JediEntity!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+enum WeekdaysEnum {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
 type TechEntity {
   id: Float!
   createdAt: Float!
@@ -12,14 +31,14 @@ type TechEntity {
 }
 
 type JediSkillEntity {
-  id: Float!
-  createdAt: Float!
-  updatedAt: Float!
+  id: String!
   jediId: Float!
   jedi: JediEntity!
   techId: Float!
   tech: TechEntity!
   price: Float!
+  createdAt: Float!
+  updatedAt: Float!
 }
 
 type PadawanEntity {
@@ -33,6 +52,7 @@ type PadawanEntity {
   birthdate: Float
   biography: String
   avatar: String
+  bookings: [BookingEntity!]
 }
 
 type JediEntity {
@@ -46,49 +66,51 @@ type JediEntity {
   birthdate: Float
   biography: String
   avatar: String
+  bookings: [BookingEntity!]
   availability: [JediAvailabilityEntity!]
   skills: [JediSkillEntity!]
 }
 
-type JediAvailabilityEntity {
+type BookingEntity {
   id: Float!
   createdAt: Float!
   updatedAt: Float!
-  day: WeekdaysEnum!
+  date: Float!
+  status: BookingStatusEnum!
+  techId: Float!
+  tech: TechEntity!
+  padawanId: Float!
+  padawan: PadawanEntity!
   jediId: Float!
   jedi: JediEntity!
 }
 
-enum WeekdaysEnum {
-  MONDAY
-  TUESDAY
-  WEDNESDAY
-  THURSDAY
-  FRIDAY
-  SATURDAY
-  SUNDAY
+enum BookingStatusEnum {
+  UNCONFIRMED
+  CONFIRMED
+  CANCELLED
+  COMPLETED
 }
 
 type Query {
   jedi_list_all: [JediEntity!]!
   jedi_list_single(id: Float!): JediEntity
-  jedi_availability_list_all: [JediAvailabilityEntity!]!
-  jedi_availability_list_single(id: Float!): [JediAvailabilityEntity!]
-  jedi_availability_list_by_jedi_id(jediId: Float!): [JediAvailabilityEntity!]
   tech_list_all: [TechEntity!]!
   tech_list_single(id: Float!): TechEntity
   tech_list_by_title(title: String!): [TechEntity!]!
   padawan_list_all: [PadawanEntity!]!
-  padawan_list_single(id: Float!): [PadawanEntity!]
-  jedi_skill_by_jedi_id(jediId: Float!): JediSkillEntity!
+  padawan_list_single(id: Float!): PadawanEntity
+  booking_list_all: [BookingEntity!]!
+  booking_list_single(id: Float!): BookingEntity!
+  booking_list_by_jedi_id(jediId: Float!): [BookingEntity!]!
+  booking_list_by_padawan_id(padawanId: Float!): [BookingEntity!]!
 }
 
 type Mutation {
   jedi_create(jedi: CreateJediInput!): JediEntity!
   jedi_update(jedi: UpdateJediInput!): JediEntity!
   jedi_delete_single(id: Float!): Boolean!
-  jedi_availability_create(jediAvailability: CreateJediAvailabilityInput!): [JediAvailabilityEntity!]!
-  jedi_availability_delete_single(id: Float!): Boolean!
+  jedi_availability_update(jediAvailability: CreateJediAvailabilityInput!): JediEntity!
   tech_create(tech: CreateTechInput!): TechEntity!
   tech_update(tech: UpdateTechInput!): TechEntity!
   tech_delete_single(id: Float!): Boolean!
@@ -96,7 +118,11 @@ type Mutation {
   padawan_create(padawan: CreatePadawanInput!): PadawanEntity!
   padawan_update(padawan: UpdatePadawanInput!): PadawanEntity!
   padawan_delete_single(id: Float!): Boolean!
-  jedi_skill_create(jediSkill: CreateJediSkillInput!): JediSkillEntity!
+  jedi_skill_create(jediSkill: CreateJediSkillInput!): JediEntity!
+  jedi_skill_delete_single(jediSkill: DeleteJediSkillInput!): JediEntity!
+  booking_create(booking: CreateBookingInput!): BookingEntity!
+  booking_update_status(input: UpdateBookingStatus!): Boolean!
+  booking_delete_single(id: Float!): Boolean!
 }
 
 input CreateJediInput {
@@ -154,4 +180,21 @@ input CreateJediSkillInput {
   jediId: Float!
   techId: Float!
   price: Float!
+}
+
+input DeleteJediSkillInput {
+  jediId: Float!
+  techId: Float!
+}
+
+input CreateBookingInput {
+  date: Float!
+  techId: Float!
+  padawanId: Float!
+  jediId: Float!
+}
+
+input UpdateBookingStatus {
+  id: Float!
+  status: String!
 }

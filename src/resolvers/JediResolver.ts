@@ -4,8 +4,10 @@ import {
   Parent,
   Query,
   ResolveField,
+  ResolveProperty,
   Resolver,
 } from '@nestjs/graphql';
+import { BookingEntity } from 'src/database/entity/BookingEntity';
 import RepoService from 'src/repo.service';
 import { JediEntity } from '../database/entity/JediEntity';
 import { CreateJediInput } from './input/Jedi/CreateJediInput';
@@ -16,10 +18,10 @@ export class JediResolver {
   constructor(private readonly repo: RepoService) {}
 
   @Mutation(() => JediEntity)
-  async jedi_create(@Args('jedi') input: CreateJediInput) {
+  jedi_create(@Args('jedi') input: CreateJediInput) {
     const jedi = this.repo.jedi.create(input);
 
-    return await this.repo.jedi.save(jedi);
+    return this.repo.jedi.save(jedi);
   }
 
   @Mutation(() => JediEntity)
@@ -44,23 +46,27 @@ export class JediResolver {
   }
 
   @Query(() => JediEntity, { nullable: true })
-  async jedi_list_single(@Args('id') id: number) {
-    const jedi = await this.repo.jedi.findOne(id);
-    const jediAvailabilities = jedi.availability;
-
-    return { ...jedi, availability: jediAvailabilities };
+  jedi_list_single(@Args('id') id: number) {
+    return this.repo.jedi.findOne(id);
   }
 
   @ResolveField()
-  async availability(@Parent() parent) {
-    return await this.repo.jediAvailability.find({
+  availability(@Parent() parent: JediEntity) {
+    return this.repo.jediAvailability.find({
       where: { jediId: parent.id },
     });
   }
 
   @ResolveField()
-  async skills(@Parent() parent) {
-    return await this.repo.jediSkill.find({
+  skills(@Parent() parent: JediEntity) {
+    return this.repo.jediSkill.find({
+      where: { jediId: parent.id },
+    });
+  }
+
+  @ResolveProperty(() => [BookingEntity])
+  bookings(@Parent() parent: JediEntity) {
+    return this.repo.booking.find({
       where: { jediId: parent.id },
     });
   }

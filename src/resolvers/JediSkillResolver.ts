@@ -1,57 +1,56 @@
 import {
-  Query,
   Args,
   Mutation,
   Parent,
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { JediSkillEntity } from 'src/database/entity/JediSkill';
-import { TechEntity } from 'src/database/entity/TechEntity';
+import { JediEntity } from 'src/database/entity/JediEntity';
+import { JediSkillEntity } from 'src/database/entity/JediSkillEntity';
 import RepoService from 'src/repo.service';
 import { CreateJediSkillInput } from './input/JediSkill/CreateJediSkillInput';
+import { DeleteJediSkillInput } from './input/JediSkill/DeleteJediSkillInput';
 
 @Resolver(JediSkillEntity)
 export class JediSkillResolver {
   constructor(private readonly repo: RepoService) {}
 
-  @Mutation(() => JediSkillEntity)
-  public async jedi_skill_create(
-    @Args('jediSkill') input: CreateJediSkillInput,
-  ) {
+  @Mutation(() => JediEntity)
+  async jedi_skill_create(@Args('jediSkill') input: CreateJediSkillInput) {
     const { jediId, price, techId } = input;
 
-    const isCreated = await this.repo.jediSkill.findOne({
-      where: { jediId, techId },
-    });
-
-    if (isCreated) {
-      return;
-    }
-
     const jediSkill = this.repo.jediSkill.create({
+      id: `JEDI_${jediId}_TECH_${techId}`,
       price,
       jediId,
       techId,
     });
 
-    return this.repo.jediSkill.save(jediSkill);
+    await this.repo.jediSkill.save(jediSkill);
+
+    return await this.repo.jedi.findOne(jediId);
   }
 
-  @Query(() => JediSkillEntity)
-  public async jedi_skill_by_jedi_id(@Args('jediId') jediId: number) {
-    return await this.repo.jediSkill.findOne({
-      where: { jediId },
-    });
+  @Mutation(() => JediEntity)
+  async jedi_skill_delete_single(
+    @Args('jediSkill') jediSkill: DeleteJediSkillInput,
+  ) {
+    const { jediId, techId } = jediSkill;
+
+    const id = `JEDI_${jediId}_TECH_${techId}`;
+
+    this.repo.jediSkill.delete({ id });
+
+    return await this.repo.jedi.findOne(jediId);
   }
 
   @ResolveField()
-  public async jedi(@Parent() parent: JediSkillEntity) {
+  async jedi(@Parent() parent: JediSkillEntity) {
     return this.repo.jedi.findOne(parent.jediId);
   }
 
   @ResolveField()
-  public async tech(@Parent() parent: JediSkillEntity) {
+  async tech(@Parent() parent: JediSkillEntity) {
     return this.repo.tech.findOne(parent.techId);
   }
 }
