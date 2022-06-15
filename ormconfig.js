@@ -1,6 +1,6 @@
 module.exports = {
   type: 'sqlite',
-  database: 'data/sqlite.db',
+  database: 'data/database.sqlite',
   synchronize: true,
   logging: false,
   entities: [`${__dirname}${process.env.ENTITIES_FILES}`],
