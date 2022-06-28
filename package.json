@@ -10,7 +10,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "env-cmd -f .env.nest nest start",
-    "start:dev": "rm dist/ -rf && env-cmd -f .env.nest nest start --watch",
+    "start:dev": "env-cmd -f .env.nest nest start --watch",
     "start:debug": "env-cmd -f .env.nest nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -80,5 +80,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "engines": {
+    "node": "16.14.0"
   }
 }

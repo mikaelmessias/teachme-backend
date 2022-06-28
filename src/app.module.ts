@@ -14,6 +14,7 @@ import GraphQLResolvers from './resolvers';
       driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
       playground: true,
+      introspection: true,
     }),
   ],
 })
