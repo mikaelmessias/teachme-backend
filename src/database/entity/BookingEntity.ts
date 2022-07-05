@@ -3,9 +3,8 @@ import { iBooking } from 'src/models/iBooking';
 import { BookingStatusEnum } from 'src/utils/enum/BookingStatusEnum';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { BaseEntity } from './BaseEntity';
-import { JediEntity } from './JediEntity';
-import { PadawanEntity } from './PadawanEntity';
 import { TechEntity } from './TechEntity';
+import { UserEntity } from './UserEntity';
 
 @ObjectType()
 @Entity({ name: 'bookings' })
@@ -27,27 +26,27 @@ export class BookingEntity extends BaseEntity implements iBooking {
 
   @ManyToOne(() => TechEntity, (tech) => tech.bookingConnection)
   @JoinColumn({ name: 'tech_id' })
-  techConnection: Promise<PadawanEntity[]>;
+  techConnection: Promise<UserEntity[]>;
 
   @Field()
   @Column({ name: 'padawan_id' })
   padawanId: number;
 
-  @Field(() => PadawanEntity)
-  padawan: PadawanEntity;
+  @Field(() => UserEntity)
+  padawan: UserEntity;
 
-  @ManyToOne(() => PadawanEntity, (padawan) => padawan.bookingConnection)
+  @ManyToOne(() => UserEntity, (padawan) => padawan.bookingConnection)
   @JoinColumn({ name: 'padawan_id' })
-  padawanConnection: Promise<PadawanEntity[]>;
+  padawanConnection: Promise<UserEntity[]>;
 
   @Field()
   @Column({ name: 'jedi_id' })
   jediId: number;
 
-  @Field(() => JediEntity)
-  jedi: JediEntity;
+  @Field(() => UserEntity)
+  jedi: UserEntity;
 
-  @ManyToOne(() => JediEntity, (jedi) => jedi.bookingConnection)
+  @ManyToOne(() => UserEntity, (jedi) => jedi.bookingConnection)
   @JoinColumn({ name: 'jedi_id' })
-  jediConnection: Promise<JediEntity[]>;
+  jediConnection: Promise<UserEntity[]>;
 }

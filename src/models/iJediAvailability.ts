@@ -1,9 +1,9 @@
 import { WeekdaysEnum } from 'src/utils/enum/WeekdaysEnum';
-import { iJedi } from './iJedi';
+import { iUser } from './iUser';
 
 export interface iJediAvailability {
   id: string;
-  jedi: iJedi;
+  jedi: iUser;
   jediId: number;
   day: WeekdaysEnum;
   createdAt: number;

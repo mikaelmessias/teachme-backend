@@ -1,12 +1,6 @@
-import {
-  Args,
-  Mutation,
-  Parent,
-  ResolveField,
-  Resolver,
-} from '@nestjs/graphql';
+import { Args, Mutation, Resolver } from '@nestjs/graphql';
 import { JediAvailabilityEntity } from 'src/database/entity/JediAvailabilityEntity';
-import { JediEntity } from 'src/database/entity/JediEntity';
+import { UserEntity } from 'src/database/entity/UserEntity';
 import RepoService from 'src/repo.service';
 import { CreateJediAvailabilityInput } from './input/JediAvailability/CreateJediAvailabilityInput';
 
@@ -14,7 +8,7 @@ import { CreateJediAvailabilityInput } from './input/JediAvailability/CreateJedi
 export class JediAvailabilityResolver {
   constructor(private readonly repo: RepoService) {}
 
-  @Mutation(() => JediEntity)
+  @Mutation(() => UserEntity)
   async jedi_availability_update(
     @Args('jediAvailability') input: CreateJediAvailabilityInput,
   ) {
@@ -42,6 +36,6 @@ export class JediAvailabilityResolver {
       .orIgnore(`("id") DO NOTHING`)
       .execute();
 
-    return await this.repo.jedi.findOne(jediId);
+    return await this.repo.user.findOne(jediId);
   }
 }

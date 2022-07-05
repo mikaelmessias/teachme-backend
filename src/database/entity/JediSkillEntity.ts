@@ -1,7 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { iJedi } from 'src/models/iJedi';
 import { iJediSkill } from 'src/models/iJediSkill';
 import { iTech } from 'src/models/iTech';
+import { iUser } from 'src/models/iUser';
 import {
   AfterInsert,
   BeforeUpdate,
@@ -11,8 +11,8 @@ import {
   ManyToOne,
   PrimaryColumn,
 } from 'typeorm';
-import { JediEntity } from './JediEntity';
 import { TechEntity } from './TechEntity';
+import { UserEntity } from './UserEntity';
 
 @ObjectType()
 @Entity({ name: 'jedisSkills' })
@@ -25,12 +25,12 @@ export class JediSkillEntity implements iJediSkill {
   @Column({ name: 'jedi_id' })
   jediId: number;
 
-  @Field(() => JediEntity)
-  jedi: JediEntity;
+  @Field(() => UserEntity)
+  jedi: UserEntity;
 
-  @ManyToOne(() => JediEntity, (jedi) => jedi.skillConnection)
+  @ManyToOne(() => UserEntity, (jedi) => jedi.skillConnection)
   @JoinColumn({ name: 'jedi_id' })
-  jediConnection: Promise<iJedi>;
+  jediConnection: Promise<iUser>;
 
   @Field()
   @Column({ name: 'tech_id' })

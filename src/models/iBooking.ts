@@ -1,6 +1,5 @@
-import { JediEntity } from 'src/database/entity/JediEntity';
-import { PadawanEntity } from 'src/database/entity/PadawanEntity';
 import { TechEntity } from 'src/database/entity/TechEntity';
+import { UserEntity } from 'src/database/entity/UserEntity';
 import { BookingStatusEnum } from 'src/utils/enum/BookingStatusEnum';
 import { iBaseModel } from './iBaseModel';
 
@@ -9,8 +8,8 @@ export interface iBooking extends iBaseModel {
   status: BookingStatusEnum;
   tech: TechEntity;
   techId: number;
-  padawan: PadawanEntity;
+  padawan: UserEntity;
   padawanId: number;
-  jedi: JediEntity;
+  jedi: UserEntity;
   jediId: number;
 }

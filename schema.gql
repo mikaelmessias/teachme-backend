@@ -6,7 +6,7 @@ type JediAvailabilityEntity {
   id: String!
   day: WeekdaysEnum!
   jediId: Float!
-  jedi: JediEntity!
+  jedi: UserEntity!
   createdAt: Float!
   updatedAt: Float!
 }
@@ -21,19 +21,32 @@ enum WeekdaysEnum {
   SUNDAY
 }
 
-type TechEntity {
+type UserEntity {
   id: Float!
   createdAt: Float!
   updatedAt: Float!
-  title: String!
-  thumbnail: String!
+  name: String!
+  email: String!
+  password: String!
+  cpf: String!
+  birthdate: Float
+  biography: String
+  avatar: String
+  userType: UserTypeEnum!
+  availability: [JediAvailabilityEntity!]
   skills: [JediSkillEntity!]
+  bookings: [BookingEntity!]
+}
+
+enum UserTypeEnum {
+  PADAWAN
+  JEDI
 }
 
 type JediSkillEntity {
   id: String!
   jediId: Float!
-  jedi: JediEntity!
+  jedi: UserEntity!
   techId: Float!
   tech: TechEntity!
   price: Float!
@@ -41,33 +54,12 @@ type JediSkillEntity {
   updatedAt: Float!
 }
 
-type PadawanEntity {
+type TechEntity {
   id: Float!
   createdAt: Float!
   updatedAt: Float!
-  name: String!
-  email: String!
-  password: String!
-  cpf: String!
-  birthdate: Float
-  biography: String
-  avatar: String
-  bookings: [BookingEntity!]
-}
-
-type JediEntity {
-  id: Float!
-  createdAt: Float!
-  updatedAt: Float!
-  name: String!
-  email: String!
-  password: String!
-  cpf: String!
-  birthdate: Float
-  biography: String
-  avatar: String
-  bookings: [BookingEntity!]
-  availability: [JediAvailabilityEntity!]
+  title: String!
+  thumbnail: String!
   skills: [JediSkillEntity!]
 }
 
@@ -80,9 +72,9 @@ type BookingEntity {
   techId: Float!
   tech: TechEntity!
   padawanId: Float!
-  padawan: PadawanEntity!
+  padawan: UserEntity!
   jediId: Float!
-  jedi: JediEntity!
+  jedi: UserEntity!
 }
 
 enum BookingStatusEnum {
@@ -93,54 +85,37 @@ enum BookingStatusEnum {
 }
 
 type Query {
-  jedi_list_all: [JediEntity!]!
-  jedi_list_single(id: Float!): JediEntity
   tech_list_all: [TechEntity!]!
   tech_list_single(id: Float!): TechEntity
   tech_list_by_title(title: String!): [TechEntity!]!
-  padawan_list_all: [PadawanEntity!]!
-  padawan_list_single(id: Float!): PadawanEntity
+  user_list_all: [UserEntity!]!
+  user_list_single(id: Float!): UserEntity
+  user_login(login: UserLoginInput!): UserEntity
   booking_list_all: [BookingEntity!]!
   booking_list_single(id: Float!): BookingEntity!
   booking_list_by_jedi_id(jediId: Float!): [BookingEntity!]!
   booking_list_by_padawan_id(padawanId: Float!): [BookingEntity!]!
 }
 
+input UserLoginInput {
+  email: String
+  password: String
+}
+
 type Mutation {
-  jedi_create(jedi: CreateJediInput!): JediEntity!
-  jedi_update(jedi: UpdateJediInput!): JediEntity!
-  jedi_delete_single(id: Float!): Boolean!
-  jedi_availability_update(jediAvailability: CreateJediAvailabilityInput!): JediEntity!
+  jedi_availability_update(jediAvailability: CreateJediAvailabilityInput!): UserEntity!
   tech_create(tech: CreateTechInput!): TechEntity!
   tech_update(tech: UpdateTechInput!): TechEntity!
   tech_delete_single(id: Float!): Boolean!
   tech_delete_all: [TechEntity!]
-  padawan_create(padawan: CreatePadawanInput!): PadawanEntity!
-  padawan_update(padawan: UpdatePadawanInput!): PadawanEntity!
-  padawan_delete_single(id: Float!): Boolean!
-  jedi_skill_create(jediSkill: CreateJediSkillInput!): JediEntity!
-  jedi_skill_delete_single(jediSkill: DeleteJediSkillInput!): JediEntity!
+  user_create(user: CreateUserInput!): UserEntity!
+  user_update(user: UpdateUserInput!): UserEntity!
+  user_delete_single(id: Float!): Boolean!
+  jedi_skill_create(jediSkill: CreateJediSkillInput!): UserEntity!
+  jedi_skill_delete_single(jediSkill: DeleteJediSkillInput!): UserEntity!
   booking_create(booking: CreateBookingInput!): BookingEntity!
   booking_update_status(input: UpdateBookingStatus!): Boolean!
   booking_delete_single(id: Float!): Boolean!
-}
-
-input CreateJediInput {
-  name: String!
-  email: String!
-  password: String!
-  cpf: String!
-  birthdate: Float
-  biography: String
-  avatar: String
-}
-
-input UpdateJediInput {
-  id: Float!
-  name: String
-  birthdate: Float
-  biography: String
-  avatar: String
 }
 
 input CreateJediAvailabilityInput {
@@ -158,17 +133,18 @@ input UpdateTechInput {
   thumbnail: String!
 }
 
-input CreatePadawanInput {
+input CreateUserInput {
   name: String!
   email: String!
   password: String!
   cpf: String!
+  userType: UserTypeEnum!
   birthdate: Float
   biography: String
   avatar: String
 }
 
-input UpdatePadawanInput {
+input UpdateUserInput {
   id: Float!
   name: String
   birthdate: Float

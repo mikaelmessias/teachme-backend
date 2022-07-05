@@ -1,8 +1,8 @@
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateJedi1653531429790 implements MigrationInterface {
-  private jediTable = new Table({
-    name: 'jedis',
+export class CreateUser1653186093101 implements MigrationInterface {
+  private usersTable = new Table({
+    name: 'users',
     columns: [
       {
         name: 'id',
@@ -80,10 +80,10 @@ export class CreateJedi1653531429790 implements MigrationInterface {
   });
 
   public async up(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.createTable(this.jediTable);
+    await queryRunner.createTable(this.usersTable);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable(this.jediTable);
+    await queryRunner.dropTable(this.usersTable);
   }
 }

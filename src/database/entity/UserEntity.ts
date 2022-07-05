@@ -1,14 +1,47 @@
-import { Field, ObjectType } from '@nestjs/graphql';
-import { iJedi } from 'src/models/iJedi';
-import { Entity, OneToMany } from 'typeorm';
+import { ObjectType, Field } from '@nestjs/graphql';
+import { iUser } from 'src/models/iUser';
+import { UserTypeEnum } from 'src/utils/enum/UserTypeEnum';
+import { Entity, Column, OneToMany } from 'typeorm';
+import { BaseEntity } from './BaseEntity';
 import { BookingEntity } from './BookingEntity';
 import { JediAvailabilityEntity } from './JediAvailabilityEntity';
 import { JediSkillEntity } from './JediSkillEntity';
-import { PadawanEntity } from './PadawanEntity';
 
 @ObjectType()
-@Entity({ name: 'jedis' })
-export class JediEntity extends PadawanEntity implements iJedi {
+@Entity({ name: 'users' })
+export class UserEntity extends BaseEntity implements iUser {
+  @Field({})
+  @Column({ length: 80 })
+  name: string;
+
+  @Field()
+  @Column({ unique: true, length: 180 })
+  email: string;
+
+  @Field()
+  @Column()
+  password: string;
+
+  @Field()
+  @Column({ unique: true, length: 11 })
+  cpf: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  birthdate: number;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  biography: string;
+
+  @Field({ nullable: true })
+  @Column({ nullable: true })
+  avatar: string;
+
+  @Field(() => UserTypeEnum)
+  @Column()
+  userType: UserTypeEnum;
+
   @Field(() => [JediAvailabilityEntity], { nullable: true })
   availability: JediAvailabilityEntity[];
 

@@ -1,8 +1,9 @@
-import { JediEntity } from 'src/database/entity/JediEntity';
 import { TechEntity } from 'src/database/entity/TechEntity';
+import { UserEntity } from 'src/database/entity/UserEntity';
+
 export interface iJediSkill {
   id: string;
-  jedi: JediEntity;
+  jedi: UserEntity;
   jediId: number;
   tech: TechEntity;
   techId: number;

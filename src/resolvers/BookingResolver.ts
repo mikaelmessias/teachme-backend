@@ -7,9 +7,8 @@ import {
   Resolver,
 } from '@nestjs/graphql';
 import { BookingEntity } from 'src/database/entity/BookingEntity';
-import { JediEntity } from 'src/database/entity/JediEntity';
-import { PadawanEntity } from 'src/database/entity/PadawanEntity';
 import { TechEntity } from 'src/database/entity/TechEntity';
+import { UserEntity } from 'src/database/entity/UserEntity';
 import RepoService from 'src/repo.service';
 import { CreateBookingInput } from './input/Booking/CreateBookingInput';
 import { UpdateBookingStatus } from './input/Booking/UpdateBookingInput';
@@ -80,14 +79,14 @@ export class BookingResolver {
     });
   }
 
-  @ResolveField(() => PadawanEntity)
+  @ResolveField(() => UserEntity)
   async padawan(@Parent() parent: BookingEntity) {
-    return await this.repo.padawan.findOne(parent.padawanId);
+    return await this.repo.user.findOne(parent.padawanId);
   }
 
-  @ResolveField(() => JediEntity)
+  @ResolveField(() => UserEntity)
   async jedi(@Parent() parent: BookingEntity) {
-    return await this.repo.jedi.findOne(parent.jediId);
+    return await this.repo.user.findOne(parent.jediId);
   }
 
   @ResolveField(() => TechEntity)

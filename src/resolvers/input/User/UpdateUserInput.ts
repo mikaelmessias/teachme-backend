@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class UpdateJediInput {
+export class UpdateUserInput {
   @Field()
   id: number;
 

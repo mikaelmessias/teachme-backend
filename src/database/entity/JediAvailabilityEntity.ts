@@ -10,7 +10,7 @@ import {
   ManyToOne,
   PrimaryColumn,
 } from 'typeorm';
-import { JediEntity } from './JediEntity';
+import { UserEntity } from './UserEntity';
 
 @ObjectType()
 @Entity({ name: 'jedisAvailability' })
@@ -27,12 +27,12 @@ export class JediAvailabilityEntity implements iJediAvailability {
   @Column({ name: 'jedi_id' })
   jediId: number;
 
-  @Field(() => JediEntity)
-  jedi: JediEntity;
+  @Field(() => UserEntity)
+  jedi: UserEntity;
 
-  @ManyToOne(() => JediEntity, (jedi) => jedi.availabilityConnection)
+  @ManyToOne(() => UserEntity, (jedi) => jedi.availabilityConnection)
   @JoinColumn({ name: 'jedi_id' })
-  jediConnection: Promise<JediEntity>;
+  jediConnection: Promise<UserEntity>;
 
   @Field()
   @Column({ name: 'created_at', default: Date.now() })

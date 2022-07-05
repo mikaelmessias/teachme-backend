@@ -1,15 +1,13 @@
 import { BookingResolver } from './BookingResolver';
 import { JediAvailabilityResolver } from './JediAvailabilityResolver';
-import { JediResolver } from './JediResolver';
 import { JediSkillResolver } from './JediSkillResolver';
-import { PadawanResolver } from './PadawanResolver';
 import { TechResolver } from './TechResolver';
+import { UserResolver } from './UserResolver';
 
 export default [
-  JediResolver,
   JediAvailabilityResolver,
   TechResolver,
-  PadawanResolver,
+  UserResolver,
   JediSkillResolver,
   BookingResolver,
 ];

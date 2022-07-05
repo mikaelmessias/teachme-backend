@@ -1,7 +1,8 @@
 import { Field, InputType } from '@nestjs/graphql';
+import { UserTypeEnum } from 'src/utils/enum/UserTypeEnum';
 
 @InputType()
-export class CreatePadawanInput {
+export class CreateUserInput {
   @Field()
   name: string;
 
@@ -13,6 +14,9 @@ export class CreatePadawanInput {
 
   @Field()
   cpf: string;
+
+  @Field(() => UserTypeEnum)
+  userType: UserTypeEnum;
 
   @Field({ nullable: true })
   birthdate?: number;
