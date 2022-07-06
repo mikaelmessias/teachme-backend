@@ -43,9 +43,9 @@ export class BookingResolver {
   async booking_update_status(@Args('input') input: UpdateBookingStatus) {
     const { id, status } = input;
 
-    await this.repo.booking.update(id, { status });
+    const updateResuult = await this.repo.booking.update(id, { status });
 
-    return await this.repo.booking.findOne(id);
+    return updateResuult.affected > 0;
   }
 
   @Mutation(() => Boolean)
